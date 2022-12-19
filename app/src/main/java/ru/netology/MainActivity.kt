@@ -7,24 +7,24 @@ import ru.netology.dto.Post
 import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
+    private fun numberDisplay(number: Int): String {
+        return when {
+            ((number in 1000..9999) && (((number / 100) % 10) == 0)) -> (number / 1000).toString() + "K"
+            (number in 1000..9999 && (((number / 100) % 10) != 0)) -> ((floor((number / 1000.0).toFloat() * 10.0)) / 10.0).toString() + "K"
+            (number in 10000..999999) -> (number / 1000).toString() + "K"
+            ((number > 999_999) && (((number / 100_000) % 10) == 0)) -> (number / 1_000_000).toString() + "M"
+            ((number > 999_999) && (((number / 100_000) % 10) != 0)) -> ((floor(
+                (
+                        number / 1_000_000.0).toFloat() * 10.0
+            )) / 10.0).toString() + "M"
+            else -> number.toString()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        fun numberDisplay(number: Int): String {
-            return when {
-                ((number in 1000..9999) && (((number / 100) % 10) == 0)) -> (number / 1000).toString() + "K"
-                (number in 1000..9999 && (((number / 100) % 10) != 0)) -> ((floor((number / 1000.0).toFloat() * 10.0)) / 10.0).toString() + "K"
-                (number in 10000..999999) -> (number / 1000).toString() + "K"
-                ((number > 999_999) && (((number / 100_000) % 10) == 0)) -> (number / 1_000_000).toString() + "M"
-                ((number > 999_999) && (((number / 100_000) % 10) != 0)) -> ((floor(
-                    (
-                            number / 1_000_000.0).toFloat() * 10.0
-                )) / 10.0).toString() + "M"
-                else -> number.toString()
-            }
-        }
 
         val post = Post(
             id = 1,
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             likeByMe = false,
             shareByMe = false,
             likes = 1_099_999,
-            share = 1_999,
+            share = 990,
             views = 2_300_000
         )
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
             share.setOnClickListener {
                 post.shareByMe = !post.shareByMe
-                if (post.shareByMe) post.share++ else post.share--
+                if (post.shareByMe) post.share++
                 sharedCount.text = numberDisplay(post.share)
             }
         }
