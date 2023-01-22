@@ -10,9 +10,6 @@ import ru.netology.databinding.CardPostBinding
 import ru.netology.dto.Post
 import kotlin.math.floor
 
-typealias OnLikeListener = (post: Post) -> Unit
-typealias OnShareListener = (post: Post) -> Unit
-
 //функция представления данных
 private fun numberDisplay(number: Int): String {
     return when {
@@ -29,14 +26,13 @@ private fun numberDisplay(number: Int): String {
 }
 
 class PostAdapter(
-    private val onLikeListener: OnLikeListener,
-    private val onShareListener: OnShareListener
+    private val onInteractionListener: OnInteractionListener
 ) :
     ListAdapter<Post, PostViewHolder>(PostDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onLikeListener, onShareListener)
+        return PostViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -45,10 +41,14 @@ class PostAdapter(
     }
 }
 
+interface OnInteractionListener {
+    fun onLike(post: Post) {}
+    fun onShare(post: Post) {}
+}
+
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val onLikeListener: OnLikeListener,
-    private val onShareListener: OnShareListener
+    private val onInteractionListener: OnInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
@@ -60,10 +60,10 @@ class PostViewHolder(
             viewsCount.text = numberDisplay(post.views)
             likes.setImageResource(if (post.likeByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24)
             likes.setOnClickListener {
-                onLikeListener(post)
+                onInteractionListener.onLike(post)
             }
             share.setOnClickListener {
-                onShareListener(post)
+               onInteractionListener.onShare(post)
             }
         }
     }
