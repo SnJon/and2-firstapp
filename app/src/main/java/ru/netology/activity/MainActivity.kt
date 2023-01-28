@@ -1,24 +1,16 @@
 package ru.netology.activity
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import ru.netology.R
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostAdapter
 import ru.netology.databinding.ActivityMainBinding
 import ru.netology.dto.Post
+import ru.netology.util.AndroidUtils
 import ru.netology.viewmodel.PostViewModel
-
-object AndroidUtils {
-    fun hideKeyboard(view: View) {
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-}
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: PostViewModel by viewModels()
@@ -51,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 if (text.isNullOrBlank()) {
                     Toast.makeText(
                         this@MainActivity,
-                        "Content can't be empty",
+                        context.getString(R.string.error_empty_content),
                         Toast.LENGTH_SHORT
                     ).show()
                     return@setOnClickListener

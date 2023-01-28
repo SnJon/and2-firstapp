@@ -45,9 +45,7 @@ class PostAdapter(
 interface OnInteractionListener {
     fun onLike(post: Post) {}
     fun onShare(post: Post) {}
-
     fun onRemove(post: Post) {}
-
     fun onEdit(post: Post) {}
 }
 
@@ -68,7 +66,7 @@ class PostViewHolder(
                 onInteractionListener.onLike(post)
             }
             share.setOnClickListener {
-               onInteractionListener.onShare(post)
+                onInteractionListener.onShare(post)
             }
 
             menu.setOnClickListener {
