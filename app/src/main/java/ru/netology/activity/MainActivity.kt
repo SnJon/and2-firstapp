@@ -2,6 +2,7 @@ package ru.netology.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import ru.netology.R
@@ -9,7 +10,7 @@ import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostAdapter
 import ru.netology.databinding.ActivityMainBinding
 import ru.netology.dto.Post
-import ru.netology.util.AndroidUtils
+import ru.netology.util.hideKeyboard
 import ru.netology.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -29,17 +30,21 @@ class MainActivity : AppCompatActivity() {
 
         override fun onEdit(post: Post) {
             viewModel.edit(post)
+            activityMainBinding?.cancelEditingView?.cancelEditingView?.visibility = View.VISIBLE
+
         }
     }
 
+    private var activityMainBinding: ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
+        activityMainBinding = binding
         setContentView(binding.root)
         subscribe(binding)
 
-        binding.save.setOnClickListener {
-            with(binding.content) {
+        binding.editingView.save.setOnClickListener {
+            with(binding.editingView.content) {
                 if (text.isNullOrBlank()) {
                     Toast.makeText(
                         this@MainActivity,
@@ -53,7 +58,18 @@ class MainActivity : AppCompatActivity() {
 
                 setText("")
                 clearFocus()
-                AndroidUtils.hideKeyboard(this)
+                hideKeyboard()
+
+                binding.cancelEditingView.cancelEditingView.visibility = View.GONE
+            }
+        }
+
+        binding.cancelEditingView.cancel.setOnClickListener {
+            with(binding.editingView.content) {
+                setText("")
+                clearFocus()
+                hideKeyboard()
+                binding.cancelEditingView.cancelEditingView.visibility = View.GONE
             }
         }
     }
@@ -69,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             if (post.id == 0L) {
                 return@observe
             }
-            with(binding.content) {
+            with(binding.editingView.content) {
                 requestFocus()
                 setText(post.content)
             }

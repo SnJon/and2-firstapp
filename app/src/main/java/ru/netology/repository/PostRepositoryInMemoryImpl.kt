@@ -67,22 +67,30 @@ class PostRepositoryInMemoryImpl : PostRepository {
     ).reversed()
 
     private val data = MutableLiveData(posts)
-
     override fun getAll(): LiveData<List<Post>> = data
 
     override fun likeById(id: Long) {
-        posts = posts.map {
-            if (it.id != id) it else {
-                if (!it.likeByMe) it.copy(likeByMe = !it.likeByMe, likes = it.likes + 1)
-                else it.copy(likeByMe = !it.likeByMe, likes = it.likes - 1)
+        posts = posts.map { post ->
+            if (post.id != id) {
+                post
+            } else {
+                if (!post.likeByMe) {
+                    post.copy(likeByMe = !post.likeByMe, likes = post.likes + 1)
+                } else {
+                    post.copy(likeByMe = !post.likeByMe, likes = post.likes - 1)
+                }
             }
         }
         data.value = posts
     }
 
     override fun shareById(id: Long) {
-        posts = posts.map {
-            if (it.id != id) it else it.copy(shareByMe = !it.shareByMe, share = it.share + 1)
+        posts = posts.map { post ->
+            if (post.id != id) {
+                post
+            } else {
+                post.copy(shareByMe = !post.shareByMe, share = post.share + 1)
+            }
         }
         data.value = posts
     }
@@ -96,17 +104,18 @@ class PostRepositoryInMemoryImpl : PostRepository {
         if (post.id == 0L) {
             posts = listOf(
                 post.copy(
-                    id = nextId++,
-                    author = "Me",
-                    likeByMe = false,
-                    published = "now"
+                    id = nextId++, author = "Me", likeByMe = false, published = "now"
                 )
             ) + posts
             data.value = posts
             return
         }
         posts = posts.map {
-            if (it.id != post.id) it else it.copy(content = post.content)
+            if (it.id != post.id) {
+                it
+            } else {
+                it.copy(content = post.content)
+            }
         }
         data.value = posts
     }

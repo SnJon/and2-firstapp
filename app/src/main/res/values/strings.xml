@@ -10,4 +10,5 @@
     <string name="menu_remove">Remove</string>
     <string name="post_text">Post text</string>
     <string name="error_empty_content">Content can\'t be empty</string>
+    <string name="post_editing">Editing</string>
 </resources>

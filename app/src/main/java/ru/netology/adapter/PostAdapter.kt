@@ -9,22 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.R
 import ru.netology.databinding.CardPostBinding
 import ru.netology.dto.Post
-import kotlin.math.floor
-
-//функция представления данных
-private fun numberDisplay(number: Int): String {
-    return when {
-        ((number in 1000..9999) && (((number / 100) % 10) == 0)) -> (number / 1000).toString() + "K"
-        (number in 1000..9999 && (((number / 100) % 10) != 0)) -> ((floor((number / 1000.0).toFloat() * 10.0)) / 10.0).toString() + "K"
-        (number in 10000..999999) -> (number / 1000).toString() + "K"
-        ((number > 999_999) && (((number / 100_000) % 10) == 0)) -> (number / 1_000_000).toString() + "M"
-        ((number > 999_999) && (((number / 100_000) % 10) != 0)) -> ((floor(
-            (
-                    number / 1_000_000.0).toFloat() * 10.0
-        )) / 10.0).toString() + "M"
-        else -> number.toString()
-    }
-}
+import ru.netology.util.displayFormat
 
 class PostAdapter(
     private val onInteractionListener: OnInteractionListener
@@ -58,9 +43,9 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-            likesCount.text = numberDisplay(post.likes)
-            sharedCount.text = numberDisplay(post.share)
-            viewsCount.text = numberDisplay(post.views)
+            likesCount.text = post.likes.displayFormat()
+            sharedCount.text = post.share.displayFormat()
+            viewsCount.text = post.views.displayFormat()
             likes.setImageResource(if (post.likeByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24)
             likes.setOnClickListener {
                 onInteractionListener.onLike(post)
