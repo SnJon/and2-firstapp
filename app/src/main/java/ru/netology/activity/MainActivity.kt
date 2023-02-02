@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 setText("")
                 clearFocus()
                 hideKeyboard()
+                viewModel.save()
                 binding.cancelEditingView.cancelEditingView.visibility = View.GONE
             }
         }
