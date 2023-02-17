@@ -50,6 +50,8 @@ class PostViewHolder(
             share.text = post.share.displayFormat()
             if (post.video != null) {
                 videoGroup.visibility = View.VISIBLE
+            } else {
+                videoGroup.visibility = View.GONE
             }
             viewsCount.text = post.views.displayFormat()
             likes.isChecked = post.likeByMe

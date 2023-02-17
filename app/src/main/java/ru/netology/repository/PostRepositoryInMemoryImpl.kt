@@ -75,11 +75,10 @@ class PostRepositoryInMemoryImpl : PostRepository {
             if (post.id != id) {
                 post
             } else {
-                if (!post.likeByMe) {
-                    post.copy(likeByMe = !post.likeByMe, likes = post.likes + 1)
-                } else {
-                    post.copy(likeByMe = !post.likeByMe, likes = post.likes - 1)
-                }
+                post.copy(
+                    likeByMe = !post.likeByMe,
+                    likes = if (post.likeByMe) post.likes - 1 else post.likes + 1
+                )
             }
         }
         data.value = posts
