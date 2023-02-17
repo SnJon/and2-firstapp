@@ -17,6 +17,12 @@
         <item name="android:minWidth">@dimen/icon_button_min_size</item>
     </style>
 
+    <style name="Widget.AppTheme.PlayButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textColor">#EEEEEE</item>
+        <item name="android:minWidth">@dimen/icon_button_min_size</item>
+    </style>
+
     <style name="Widget.AppTheme.MenuButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="iconTint">?attr/colorControlNormal</item>
         <item name="android:minWidth">0dp</item>

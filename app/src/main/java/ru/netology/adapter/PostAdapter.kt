@@ -1,6 +1,7 @@
 package ru.netology.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +11,7 @@ import ru.netology.R
 import ru.netology.databinding.CardPostBinding
 import ru.netology.dto.Post
 import ru.netology.util.displayFormat
+import ru.netology.util.setAllOnClickListener
 
 class PostAdapter(
     private val onInteractionListener: OnInteractionListener
@@ -32,6 +34,7 @@ interface OnInteractionListener {
     fun onShare(post: Post) {}
     fun onRemove(post: Post) {}
     fun onEdit(post: Post) {}
+    fun onPlay(post: Post) {}
 }
 
 class PostViewHolder(
@@ -43,10 +46,11 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-//            likesCount.text = post.likes.displayFormat()
             likes.text = post.likes.displayFormat()
-//            sharedCount.text = post.share.displayFormat()
             share.text = post.share.displayFormat()
+            if (post.video != null) {
+                videoGroup.visibility = View.VISIBLE
+            }
             viewsCount.text = post.views.displayFormat()
             likes.isChecked = post.likeByMe
             likes.setOnClickListener {
@@ -73,6 +77,10 @@ class PostViewHolder(
                         }
                     }
                 }.show()
+            }
+
+            videoGroup.setAllOnClickListener {
+                onInteractionListener.onPlay(post)
             }
         }
     }

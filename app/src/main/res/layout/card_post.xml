@@ -78,15 +78,36 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         tools:text="@sample/posts.json/data/content" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/footer"
+    <ImageView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_spacing"
+        android:contentDescription="@string/description_post_preview"
+        app:layout_constraintBottom_toBottomOf="@id/footer"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        app:srcCompat="@drawable/ic_preview_image" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/playButton"
+        style="@style/Widget.AppTheme.PlayButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="content" />
+        app:icon="@drawable/ic_play_48"
+        app:layout_constraintBottom_toBottomOf="@id/preview"
+        app:layout_constraintEnd_toEndOf="@id/preview"
+        app:layout_constraintStart_toStartOf="@id/preview"
+        app:layout_constraintTop_toTopOf="@id/preview" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/videoGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="playButton,preview" />
 
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrierBottom"
+        android:id="@+id/footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
@@ -101,7 +122,7 @@
         android:contentDescription="@string/description_post_likes"
         app:icon="@drawable/ic_like_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrierBottom"
+        app:layout_constraintTop_toBottomOf="@id/footer"
         tools:text="100" />
 
     <com.google.android.material.button.MaterialButton
@@ -135,7 +156,7 @@
         android:layout_marginStart="-45dp"
         app:layout_constraintBottom_toBottomOf="@id/likes"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrierBottom"
+        app:layout_constraintTop_toBottomOf="@id/footer"
         app:layout_constraintTop_toTopOf="@id/likes"
         tools:text="@sample/posts.json/data/views" />
 
