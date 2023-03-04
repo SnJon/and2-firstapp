@@ -161,4 +161,9 @@
         app:layout_constraintTop_toTopOf="@id/likes"
         tools:text="@sample/posts.json/data/views" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/fragmentPostGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
