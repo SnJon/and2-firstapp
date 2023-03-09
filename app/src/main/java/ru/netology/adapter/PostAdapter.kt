@@ -48,14 +48,14 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             likes.text = post.likes.displayFormat()
-            share.text = post.share.displayFormat()
+            share.text = post.shares.displayFormat()
             if (post.video != null) {
                 videoGroup.visibility = View.VISIBLE
             } else {
                 videoGroup.visibility = View.GONE
             }
             viewsCount.text = post.views.displayFormat()
-            likes.isChecked = post.likeByMe
+            likes.isChecked = post.likedByMe
             likes.setOnClickListener {
                 onInteractionListener.onLike(post)
             }

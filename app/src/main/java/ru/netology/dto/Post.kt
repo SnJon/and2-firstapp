@@ -6,10 +6,10 @@ data class Post(
     val published: String,
     val content: String,
     val video: String? = null,
-    val likeByMe: Boolean,
-    val shareByMe: Boolean,
+    val likedByMe: Boolean,
+    val sharedByMe: Boolean,
     val likes: Int,
-    val share: Int,
+    val shares: Int,
     val views: Int
 ) {
     companion object {
@@ -17,11 +17,11 @@ data class Post(
             id = 0,
             content = "",
             author = "",
-            likeByMe = false,
-            shareByMe = false,
+            likedByMe = false,
+            sharedByMe = false,
             published = "",
             likes = 0,
-            share = 0,
+            shares = 0,
             views = 0
         )
     }

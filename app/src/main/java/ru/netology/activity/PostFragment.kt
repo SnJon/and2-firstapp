@@ -59,9 +59,9 @@ class PostFragment : Fragment() {
                 author.text = post.author
                 published.text = post.published
                 likes.text = post.likes.displayFormat()
-                share.text = post.share.displayFormat()
+                share.text = post.shares.displayFormat()
                 viewsCount.text = post.views.displayFormat()
-                likes.isChecked = post.likeByMe
+                likes.isChecked = post.likedByMe
 
 
                 likes.setOnClickListener {
