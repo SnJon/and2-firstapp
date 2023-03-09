@@ -2,6 +2,7 @@ package ru.netology.util
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.Group
 
@@ -11,7 +12,8 @@ fun View.hideKeyboard() {
 }
 
 fun Group.setAllOnClickListener(listener: (View) -> Unit) {
+    val constraintLayout = parent as? ViewGroup
     referencedIds.forEach { id ->
-        rootView.findViewById<View>(id).setOnClickListener(listener)
+        constraintLayout?.findViewById<View>(id)?.setOnClickListener(listener)
     }
 }

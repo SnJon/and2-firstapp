@@ -37,7 +37,7 @@ class PostRepositoryFileImpl(
                 post.copy(
                     id = nextId++,
                     author = "Me",
-                    likeByMe = false,
+                    likedByMe = false,
                     published = "now"
                 )
             ) + posts
@@ -55,8 +55,8 @@ class PostRepositoryFileImpl(
     override fun likeById(id: Long) {
         posts = posts.map {
             if (it.id != id) it else it.copy(
-                likeByMe = !it.likeByMe,
-                likes = if (it.likeByMe) it.likes - 1 else it.likes + 1
+                likedByMe = !it.likedByMe,
+                likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
             )
         }
         data.value = posts
@@ -68,7 +68,7 @@ class PostRepositoryFileImpl(
             if (post.id != id) {
                 post
             } else {
-                post.copy(shareByMe = !post.shareByMe, share = post.share + 1)
+                post.copy(sharedByMe = !post.sharedByMe, shares = post.shares + 1)
             }
         }
         data.value = posts
