@@ -18,7 +18,6 @@ import ru.netology.util.displayFormat
 import ru.netology.util.setAllOnClickListener
 import ru.netology.viewmodel.PostViewModel
 
-
 class PostFragment : Fragment() {
 
     companion object {
@@ -58,9 +57,12 @@ class PostFragment : Fragment() {
                 binding.content.text = post.content
                 author.text = post.author
                 published.text = post.published
-                likes.text = post.likes.displayFormat()
-                share.text = post.shares.displayFormat()
-                viewsCount.text = post.views.displayFormat()
+//                likes.text = post.likes.displayFormat()
+                likes.text = "${post.likes.displayFormat()}"
+//                share.text = post.shares.displayFormat()
+                share.text = "${post.shares.displayFormat()}"
+//                viewsCount.text = post.views.displayFormat()
+                viewsCount.text = "${post.views.displayFormat()}"
                 likes.isChecked = post.likedByMe
 
 
@@ -91,7 +93,6 @@ class PostFragment : Fragment() {
                     startActivity(shareIntent)
                     viewModel.shareById(postId)
                 }
-
 
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
