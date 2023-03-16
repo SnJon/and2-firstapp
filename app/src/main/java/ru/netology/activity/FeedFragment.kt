@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.R
+import ru.netology.activity.NewPostFragment.Companion.stringArg
 import ru.netology.activity.PostFragment.Companion.idArg
 import ru.netology.adapter.OnInteractionListener
 import ru.netology.adapter.PostAdapter
@@ -50,7 +51,9 @@ class FeedFragment : Fragment() {
 
         override fun onEdit(post: Post) {
             viewModel.edit(post)
-            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+            findNavController().navigate(
+                R.id.action_feedFragment_to_newPostFragment,
+                Bundle().apply { stringArg = post.content })
         }
 
         override fun onPlay(post: Post) {

@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import ru.netology.R
-import ru.netology.activity.NewPostFragment.Companion.ARG_CONTENT
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +23,7 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             intent.removeExtra(Intent.EXTRA_TEXT)
             findNavController(R.id.nav_host_fragment).navigate(
                 R.id.action_feedFragment_to_newPostFragment,
-                bundleOf(ARG_CONTENT to text)
-//                Bundle().apply {
-//                    textArg = text
-//                }
+                bundleOf("ARG_CONTENT" to text)
             )
         }
     }

@@ -10,10 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.databinding.FragmentNewPostBinding
+import ru.netology.dto.Post
+import ru.netology.util.StringArg
 import ru.netology.util.hideKeyboard
 import ru.netology.viewmodel.PostViewModel
 
 class NewPostFragment() : Fragment() {
+    companion object {
+        var Bundle.stringArg: String? by StringArg
+    }
 
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -30,9 +35,8 @@ class NewPostFragment() : Fragment() {
             false
         )
 
-        viewModel.selectedPost.observe(viewLifecycleOwner) { post ->
-            binding.edit.setText(post.content)
-        }
+        val postContent = arguments?.stringArg ?: ""
+        binding.edit.setText(postContent)
 
         binding.ok.setOnClickListener {
             if (!TextUtils.isEmpty(binding.edit.text)) {
@@ -43,13 +47,10 @@ class NewPostFragment() : Fragment() {
             findNavController().navigateUp()
         }
 
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.selectedPost.value = Post.empty
             findNavController().navigateUp()
         }
         return binding.root
-    }
-
-    companion object {
-        const val ARG_CONTENT = "ARG_CONTENT"
     }
 }
