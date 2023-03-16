@@ -20,6 +20,10 @@ class NewPostFragment() : Fragment() {
         var Bundle.stringArg: String? by StringArg
     }
 
+    private var _binding: FragmentNewPostBinding? = null
+    private val binding: FragmentNewPostBinding
+        get() = _binding!!
+
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
@@ -29,11 +33,13 @@ class NewPostFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentNewPostBinding = FragmentNewPostBinding.inflate(
-            inflater,
-            container,
-            false
-        )
+        _binding = FragmentNewPostBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val postContent = arguments?.stringArg ?: ""
         binding.edit.setText(postContent)
@@ -51,6 +57,10 @@ class NewPostFragment() : Fragment() {
             viewModel.selectedPost.value = Post.empty
             findNavController().navigateUp()
         }
-        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
