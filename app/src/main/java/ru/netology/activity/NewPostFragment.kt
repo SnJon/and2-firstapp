@@ -18,6 +18,7 @@ import ru.netology.viewmodel.PostViewModel
 class NewPostFragment() : Fragment() {
     companion object {
         var Bundle.stringArg: String? by StringArg
+        var Bundle.intentArg: String? by StringArg
     }
 
     private var _binding: FragmentNewPostBinding? = null
@@ -41,8 +42,11 @@ class NewPostFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val postContent = arguments?.stringArg ?: ""
-        binding.edit.setText(postContent)
+        val changeText = arguments?.stringArg ?: ""
+        binding.edit.setText(changeText)
+
+        val intentText = arguments?.intentArg ?: ""
+        binding.edit.setText(intentText)
 
         binding.ok.setOnClickListener {
             if (!TextUtils.isEmpty(binding.edit.text)) {
