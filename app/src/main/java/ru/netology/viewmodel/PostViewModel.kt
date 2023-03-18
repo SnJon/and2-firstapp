@@ -1,11 +1,15 @@
 package ru.netology.viewmodel
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.db.AppDb
 import ru.netology.dto.Post
 import ru.netology.repository.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
@@ -23,13 +27,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         selectedPost.value = Post.empty
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun changeContent(content: String) {
         selectedPost.value?.let {
             val text = content.trim()
             if (it.content == text) {
                 return
             }
-            selectedPost.value = it.copy(content = text)
+            val time = LocalDateTime.now().format(
+                DateTimeFormatter.ofPattern("k:mm")
+            )
+            selectedPost.value = it.copy(content = text, author = "Me", published = time)
         }
     }
 
