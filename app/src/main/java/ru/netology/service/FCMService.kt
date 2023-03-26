@@ -51,6 +51,12 @@ class FCMService : FirebaseMessagingService() {
                         Like::class.java
                     )
                 )
+                Action.NEW_POST -> handleNewPost(
+                    gson.fromJson(
+                        message.data[KEY_CONTENT],
+                        NewPost::class.java
+                    )
+                )
                 else -> Unit
             }
         }
@@ -72,6 +78,32 @@ class FCMService : FirebaseMessagingService() {
                     content.postAuthor,
                 )
             )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermissionRequest()
+        }
+
+        NotificationManagerCompat.from(this)
+            .notify(Random.nextInt(100_000), notification)
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun handleNewPost(content: NewPost) {
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(
+                getString(
+                    R.string.notification_user_new_post,
+                    content.userName,
+                )
+            )
             .setStyle(NotificationCompat.BigTextStyle().bigText(content.postText))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
@@ -81,20 +113,26 @@ class FCMService : FirebaseMessagingService() {
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
-                putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID)
-            }
-            startActivity(intent)
+            notificationPermissionRequest()
         }
 
         NotificationManagerCompat.from(this)
             .notify(Random.nextInt(100_000), notification)
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun notificationPermissionRequest() {
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID)
+        }
+        startActivity(intent)
+    }
 }
 
 enum class Action(val title: String) {
-    LIKE("Like");
+    LIKE("Like"),
+    NEW_POST("New Post");
 
     companion object {
         fun getOrNull(title: String): Action? {
@@ -109,5 +147,11 @@ data class Like(
     val userName: String,
     val postId: Long,
     val postAuthor: String,
+)
+
+data class NewPost(
+    val userId: Long,
+    val userName: String,
+    val postId: Long,
     val postText: String,
 )

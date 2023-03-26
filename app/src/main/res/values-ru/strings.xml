@@ -18,6 +18,7 @@
     <string name="description_post_preview">Предварительный просмотр</string>
     <string name="google_play_unavailable">Google Api недоступно</string>
     <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
+    <string name="notification_user_new_post">%1$s опубликовал новый пост</string>
     <string name="channel_remote_name">Уведомления с сервера</string>
     <string name="channel_remote_description">Уведомления с удалённого сервера</string>
 </resources>
