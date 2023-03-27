@@ -1,6 +1,6 @@
 package ru.netology.repository
 
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import ru.netology.dao.PostDao
 import ru.netology.dto.Post
 import ru.netology.entity.PostEntity
@@ -8,20 +8,10 @@ import ru.netology.entity.PostEntity
 class PostRepositoryRoomImpl(
     private val dao: PostDao,
 ) : PostRepository {
-    override fun getAll() = Transformations.map(dao.getAll()) { list ->
+
+    override fun getAll() = dao.getAll().map { list ->
         list.map {
-            Post(
-                it.id,
-                it.author,
-                it.published,
-                it.content,
-                it.video,
-                it.likedByMe,
-                it.sharedByMe,
-                it.likes,
-                it.shares,
-                it.views
-            )
+            it.toDto()
         }
     }
 

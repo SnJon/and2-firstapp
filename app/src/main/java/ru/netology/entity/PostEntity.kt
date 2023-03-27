@@ -18,7 +18,8 @@ data class PostEntity(
     val shares: Int = 0,
     val views: Int = 0,
 ) {
-    fun toDto() = PostEntity(
+
+    fun toDto() = Post(
         id,
         author,
         published,
