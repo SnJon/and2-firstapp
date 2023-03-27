@@ -1,20 +1,21 @@
 package ru.netology.viewmodel
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.db.AppDb
 import ru.netology.dto.Post
-import ru.netology.repository.PostRepository
-import ru.netology.repository.PostRepositoryFileImpl
-import ru.netology.repository.PostRepositoryInMemoryImpl
-import ru.netology.repository.PostRepositorySQLiteImpl
+import ru.netology.repository.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositorySQLiteImpl(
-        AppDb.getInstance(application).postDao
-    )
-//    private val repository: PostRepository = PostRepositoryInMemoryImpl()
+    private val repository: PostRepository =
+        PostRepositoryRoomImpl(AppDb.getInstance(context = application).postDao())
+
+    //    private val repository: PostRepository = PostRepositoryInMemoryImpl()
 //    private val repository: PostRepository = PostRepositoryFileImpl(application)
     val data = repository.getAll()
     val selectedPost = MutableLiveData(Post.empty)
@@ -26,13 +27,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         selectedPost.value = Post.empty
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun changeContent(content: String) {
         selectedPost.value?.let {
             val text = content.trim()
             if (it.content == text) {
                 return
             }
-            selectedPost.value = it.copy(content = text)
+            val time = LocalDateTime.now().format(
+                DateTimeFormatter.ofPattern("k:mm")
+            )
+            selectedPost.value = it.copy(content = text, author = "Me", published = time)
         }
     }
 
