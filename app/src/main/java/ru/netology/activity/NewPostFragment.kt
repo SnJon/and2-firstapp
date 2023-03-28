@@ -46,10 +46,14 @@ class NewPostFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val changeText = arguments?.stringArg ?: ""
-        binding.edit.setText(changeText)
+        if (changeText.isNotEmpty()) {
+            binding.edit.setText(changeText)
+        }
 
         val intentText = arguments?.intentArg ?: ""
-        binding.edit.setText(intentText)
+        if (intentText.isNotEmpty()) {
+            binding.edit.setText(intentText)
+        }
 
         binding.ok.setOnClickListener {
             if (!TextUtils.isEmpty(binding.edit.text)) {
